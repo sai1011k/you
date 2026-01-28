@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+ font-family: 'Playfair Display', serif;
+}
+
+/* ❤️ HEART PARTICLES */
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.heart {
+  position: absolute;
+  bottom: -30px;
+  font-size: 18px;
+  opacity: 0.7;
+  animation: floatUp 18s linear infinite;
+  text-shadow: 0 0 8px rgba(255,150,180,.85);
+}
+
+.heart:nth-child(1){left:10%;animation-delay:0s;}
+.heart:nth-child(2){left:30%;animation-delay:4s;}
+.heart:nth-child(3){left:50%;animation-delay:8s;}
+.heart:nth-child(4){left:70%;animation-delay:2s;}
+.heart:nth-child(5){left:90%;animation-delay:6s;}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(.9); opacity:0; }
+  20% { opacity:.7; }
+  100% { transform: translateY(-120vh) scale(1.2); opacity:0; }
+}
+
+/* SCENES */
+.scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+/* ✉️ ENVELOPE */
+.envelope-scene {
+  background: radial-gradient(#ffd6e8, #fce4ec);
+}
+
+.envelope-wrapper {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% { transform: translateY(-10px); }
+}
+
+.envelope {
+  width: 320px;
+  height: 220px;
+  background: #ff8fab;
+  position: relative;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 120px solid #fb6f92;
+}
+
+.front {
+  position: absolute;
+  bottom: 0;
+  border-left: 160px solid rgba(255,255,255,.25);
+  border-right: 160px solid rgba(255,255,255,.25);
+  border-bottom: 110px solid rgba(255,255,255,.2);
+}
+
+.seal {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 46px;
+  background: #ff477e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 22px;
+  box-shadow: 0 0 20px rgba(255,71,126,.6);
+}
+
+.instruction {
+  margin-top: 22px;
+  color: #ff477e;
+}
+
+/* 📜 LETTER */
+.letter-scene {
+  background: radial-gradient(#fff1f5, #fde2e8, #f9c5d1);
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.letter-scene.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: #ff8fab;
+  cursor: pointer;
+}
+
+/* 📖 BOOK */
+.book {
+  width: 90vw;
+  max-width: 520px;
+  height: 65vh;
+  background:
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png"),
+    #f5ecd9;
+  padding: 40px;
+  position: relative;
+  perspective: 1400px;
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.35);
+  z-index: 5;
+}
+
+/* 📄 PAGES */
+.page {
+  position: absolute;
+  inset: 0;
+  padding: 40px;
+   font-size: 17px;
+  line-height: 1.7;
+
+  background:
+    radial-gradient(circle at top left, rgba(150,100,50,.15), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(120,70,30,.15), transparent 60%),
+    #f5ecd9;
+     overflow-y: auto;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 1.6s cubic-bezier(.25,.8,.25,1);
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ACTIVE */
+.page.active {
+  z-index: 3;
+}
+
+/* NEXT PAGE — RIGHT ➜ LEFT, OUTWARD */
+.page.flip-next {
+  transform-origin: right;
+  transform:
+    translateZ(10px)
+    rotateY(155deg)
+    skewY(1deg);
+}
+
+.page.flip-next::before {
+  opacity: 1;
+  background: linear-gradient(to right, rgba(0,0,0,.25), transparent 60%);
+}
+
+/* PREVIOUS PAGE — LEFT ➜ RIGHT, OUTWARD */
+.page.flip-prev {
+  transform-origin: left;
+  transform:
+    translateZ(10px)
+    rotateY(-155deg)
+    skewY(-1deg);
+}
+
+.page.flip-prev::before {
+  opacity: 1;
+  background: linear-gradient(to left, rgba(0,0,0,.25), transparent 60%);
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  gap: 40px;
+  margin-top: 25px;
+}
+
+.nav button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #c97c9a;
+  opacity: .7;
+}
+
+.nav button:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+.page::-webkit-scrollbar {
+  width: 6px;
+}
+
+.page::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
